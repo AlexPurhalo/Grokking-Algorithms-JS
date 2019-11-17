@@ -1,4 +1,4 @@
-// **Declarative** way using built in to language methods:
+// **Eloquent Solution**:
 const selectionSort = (items) => {
   items.forEach((val, i, arr) => {
     const smallest = Math.min(...arr.slice(i))
@@ -14,7 +14,7 @@ const selectionSort = (items) => {
   return items
 }
 
-// **Imperative** solution:
+// **Standard Solution**:
 // const selectionSort = (arr) => {
 //   for (let i=0; i <= arr.length-1; i++) { 
 //     // find the idnex of the smallest element
