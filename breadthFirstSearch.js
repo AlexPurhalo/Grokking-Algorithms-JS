@@ -1,26 +1,42 @@
-const breadthFirstSearch = (graph, [curr, ...rest]=graph['you'], cashed=[]) => {
+const breadthFirstSearch = ({ graph, predicator },[curr, ...rest] = Object.values(graph)[0], cashed=[]) => {
   const isInCash = val => ![...cashed, ...rest].some(name => name === val)
-  const isMangoSeller = name => name.slice(-1) === 'm'
-
   if (!curr) return null
-  if (isMangoSeller(curr)) return curr 
-
+  if (predicator(curr)) return curr 
   return breadthFirstSearch(
-    graph,
+    { graph, predicator },
     [...rest, ...graph[curr].filter(isInCash)],
     [...cashed, curr]
   )
 }
 
-const graph = {
-  'you': ['bob', 'alice', 'claire'],
-  'bob': ['anuj', 'peggy'],
-  'alice': ['peggy'],
-  'claire': ['thom', 'jonny'],
-  'anuj': [],
-  'peggy': [],
-  'thom': [],
-  'jonny': []
-}
+console.log(
+  breadthFirstSearch({
+    graph: {
+      'Twin Piks': ['#44 bus stop', '#33 bus stop'],
+      '#44 bus stop': ['#28 bus stop'],
+      '#33 bus stop': ['#51 bus stop', '#381 bus stop'],
+      '#28 bus stop': ['Golden Gate Bridge'],
+      '#51 bus stop': ['#28 bus stop'],
+      '#381 bus stop': ['#28 bus stop'],
+      'Golden Gate Bridge': []
+    }, 
+    predicator: place => /Golden Gate Bridge/.test(place)
+  })
+)
 
-console.log(breadthFirstSearch(graph))
+console.log(
+  breadthFirstSearch({
+    graph: {
+      'you': ['bob', 'alice', 'claire'],
+      'bob': ['anuj', 'peggy'],
+      'alice': ['peggy'],
+      'claire': ['thom', 'jonny'],
+      'anuj': [],
+      'peggy': [],
+      'thom': [],
+      'jonny': []
+    },
+    predicator: name => name.slice(-1) === 'm' 
+  })
+)
+
